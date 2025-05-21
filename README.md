@@ -202,7 +202,7 @@ Processando 1/5: https://www.duogourmet.com.br/restaurantes/sao-paulo/restaurant
 Este projeto não é só sobre comer bem com o DuoGourmet, mas sobre fazer isso de forma **consciente** e **tranquila**. Ao escolher o metrô, você:
 - **Reduz emissões**: Diminui o uso de carros, ajudando a combater a poluição e as mudanças climáticas.
 - **Evita estresse**: Esqueça os engarrafamentos e os aborrecimentos do trânsito paulistano.
-- **Planeja com facilidade**: Encontra restaurantes acessíveis com informações claras sobre distância e tempo a pé.
+- **Planeja com facilidade**: Encontra restaurantes acessíveis via metrô com informações claras sobre estação, distância e tempo a pé.
 
 ## Observações
 
