@@ -1,169 +1,174 @@
-Scraper de Restaurantes DuoGourmet com Busca de Estações de Metrô
-Introdução
-O DuoGourmet é um serviço que permite aos clientes em aproveitar um segundo prato principal grátis em restaurantes parceiros. Com o aumento do trânsito em São Paulo, que contribui para maiores emissões de carbono e estresse ao dirigir, este projeto busca facilitar a vida dos usuários e preservar o meio ambiente. Ele identifica as estações de metrô mais próximas dos restaurantes do DuoGourmet, fornecendo a distância e o tempo a pé até cada local. Assim, os usuários podem escolher restaurantes acessíveis por metrô, com zero emissões, promovendo uma forma mais sustentável e tranquila de chegar ao destino.
-A lista de restaurantes gerada pelo script pode ser baixada na seção de Releases deste repositório, no arquivo restaurantes_com_metro_google.csv.
-Visão Geral do Projeto
-O script duo_google.py extrai informações de restaurantes do site do DuoGourmet e utiliza as APIs do Google Maps para encontrar a estação de metrô mais próxima de cada restaurante. Os dados coletados, como nome, endereço, contato, tipo de cozinha, horários de funcionamento e informações do metrô, são salvos em um arquivo CSV (restaurantes_com_metro_google.csv) para fácil consulta. Este projeto ajuda os usuários a planejar suas refeições de forma sustentável, priorizando o transporte público.
-Funcionalidades
+# Scraper de Restaurantes DuoGourmet com Busca de Estações de Metrô
 
-Extrai dados dos restaurantes do site do DuoGourmet, incluindo nome, endereço, contato, tipo de cozinha e horários de almoço e jantar.
-Usa as APIs do Google Maps (Geocoding, Places e Distance Matrix) para encontrar a estação de metrô mais próxima, com distância e tempo a pé.
-Evita processar restaurantes duplicados, verificando URLs já processadas no arquivo CSV.
-Limita o número de restaurantes processados com base na variável de ambiente MAX_RESTAURANTES.
-Gera um arquivo CSV estruturado para análise fácil.
+## Introdução
 
-Requisitos
-Para executar o script, você precisa de:
+Imagine saborear uma refeição incrível com o benefício do DuoGourmet, que te dá um segundo prato grátis ou um desconto no segundo rodízio em restaurantes selecionados de São Paulo, sem o estresse do trânsito! Em uma cidade onde engarrafamentos são rotina, o aumento das emissões de combustíveis fósseis e o nervosismo ao volante podem acabar com o prazer de sair para comer. Este projeto foi criado para transformar sua experiência gastronômica, promovendo **sustentabilidade** e **tranquilidade**. Ele mapeia os restaurantes do DuoGourmet e encontra as estações de metrô mais próximas, com distância e tempo a pé, permitindo que você chegue ao seu destino de forma prática, ecológica e sem os aborrecimentos do trânsito.
 
-Python 3.6 ou superior
-Um ambiente virtual (venv) configurado (veja instruções abaixo)
-Um arquivo requirements.txt com as dependências:
-requests
-beautifulsoup4
+A lista completa de restaurantes, com todas as informações coletadas, pode ser baixada na seção de [**Releases**](#saída) deste repositório, no arquivo `restaurantes_com_metro_google.csv`.
 
+## Visão Geral do Projeto
 
-Uma chave de API do Google Maps com as seguintes APIs ativadas:
-Geocoding API
-Places API
-Distance Matrix API
+O script `duo_google.py` é uma ferramenta poderosa que combina web scraping com as APIs do Google Maps para facilitar sua escolha de restaurantes no DuoGourmet. Ele coleta informações detalhadas dos restaurantes, como nome, endereço, tipo de cozinha e horários, e descobre a estação de metrô mais próxima, com a distância e o tempo a pé até ela. Tudo isso é salvo em um arquivo CSV (`restaurantes_com_metro_google.csv`), ajudando você a planejar sua saída de forma sustentável e sem o caos do trânsito paulistano.
 
+## Funcionalidades
 
-Variáveis de ambiente:
-GOOGLE_API_KEY: Sua chave de API do Google Maps.
-MAX_RESTAURANTES (opcional): Número máximo de restaurantes a processar (padrão: 5).
+- **Extração de Dados**: Coleta nome, endereço, contato, tipo de cozinha e horários de almoço e jantar dos restaurantes do DuoGourmet.
+- **Localização de Metrô**: Usa as APIs do Google Maps (Geocoding, Places e Distance Matrix) para identificar a estação de metrô mais próxima, com distância (em metros) e tempo a pé (em minutos).
+- **Evita Duplicatas**: Verifica URLs já processadas para não repetir restaurantes no CSV.
+- **Limite Configurável**: Permite definir o número máximo de restaurantes a processar via variável de ambiente (`MAX_RESTAURANTES`).
+- **Saída Estruturada**: Gera um arquivo CSV organizado para facilitar a consulta e análise.
 
+## Requisitos
 
+Para rodar o script, você vai precisar de:
 
-Configuração
-1. Criar um Ambiente Virtual (venv)
-É altamente recomendável usar um ambiente virtual para isolar as dependências do projeto. Siga as instruções abaixo para o seu sistema operacional:
-Windows
+- **Python**: Versão 3.6 ou superior.
+- **Ambiente Virtual**: Recomendado para isolar as dependências.
+- **Dependências**: Listadas no arquivo `requirements.txt`:
+  - `requests`
+  - `beautifulsoup4`
+- **Chave de API do Google Maps**: Com as APIs Geocoding, Places e Distance Matrix ativadas.
+- **Variáveis de Ambiente**:
+  - `GOOGLE_API_KEY`: Sua chave de API do Google Maps.
+  - `MAX_RESTAURANTES` (opcional): Número máximo de restaurantes a processar (padrão: 5).
 
-Abra o Prompt de Comando ou PowerShell.
-Navegue até o diretório do projeto:cd caminho/para/o/projeto
+## Configuração
 
+### 1. Criar um Ambiente Virtual (venv)
 
-Crie o ambiente virtual:python -m venv venv
+Para manter seu projeto organizado e evitar conflitos, crie um ambiente virtual. Siga os passos para o seu sistema operacional:
 
+#### **Windows**
+1. Abra o Prompt de Comando ou PowerShell.
+2. Navegue até o diretório do projeto:
+   ```bash
+   cd caminho/para/o/projeto
+   ```
+3. Crie o ambiente virtual:
+   ```bash
+   python -m venv venv
+   ```
+4. Ative o ambiente:
+   ```bash
+   venv\Scripts\activate
+   ```
+   Você verá `(venv)` no início da linha de comando.
 
-Ative o ambiente virtual:venv\Scripts\activate
+#### **Linux/macOS**
+1. Abra o terminal.
+2. Navegue até o diretório do projeto:
+   ```bash
+   cd caminho/para/o/projeto
+   ```
+3. Crie o ambiente virtual:
+   ```bash
+   python3 -m venv venv
+   ```
+4. Ative o ambiente:
+   ```bash
+   source venv/bin/activate
+   ```
+   Você verá `(venv)` no início da linha do terminal.
 
-Você verá (venv) no início da linha de comando, indicando que o ambiente está ativo.
+### 2. Instalar Dependências
 
-Linux/macOS
-
-Abra o terminal.
-Navegue até o diretório do projeto:cd caminho/para/o/projeto
-
-
-Crie o ambiente virtual:python3 -m venv venv
-
-
-Ative o ambiente virtual:source venv/bin/activate
-
-Você verá (venv) no início da linha do terminal, indicando que o ambiente está ativo.
-
-2. Instalar Dependências
-Com o ambiente virtual ativado, instale as dependências listadas no arquivo requirements.txt:
+Com o ambiente virtual ativado, instale as dependências:
+```bash
 pip install -r requirements.txt
+```
 
-3. Configurar a Chave de API do Google Maps
+### 3. Configurar a Chave de API do Google Maps
 
-Obtenha uma chave de API do Google Maps em Google Cloud Console.
+- Obtenha uma chave de API em [Google Cloud Console](https://developers.google.com/maps/documentation/javascript/get-api-key).
+- Ative as APIs **Geocoding**, **Places** e **Distance Matrix**.
+- Defina a chave como variável de ambiente:
 
-Ative as APIs Geocoding, Places e Distance Matrix no seu projeto do Google Cloud.
+  #### **Windows**
+  ```bash
+  set GOOGLE_API_KEY=sua_chave_de_api_aqui
+  ```
 
-Defina a chave de API como variável de ambiente:
-Windows
-set GOOGLE_API_KEY=sua_chave_de_api_aqui
+  #### **Linux/macOS**
+  ```bash
+  export GOOGLE_API_KEY=sua_chave_de_api_aqui
+  ```
 
-Linux/macOS
-export GOOGLE_API_KEY=sua_chave_de_api_aqui
+### 4. Configurar o Limite de Restaurantes (Opcional)
 
-Alternativamente, você pode configurar a chave diretamente no script (não recomendado por questões de segurança).
+Para limitar o número de restaurantes processados:
 
-
-4. Configurar o Limite de Restaurantes (Opcional)
-Para limitar o número de restaurantes processados, defina a variável de ambiente MAX_RESTAURANTES:
-Windows
+#### **Windows**
+```bash
 set MAX_RESTAURANTES=10
+```
 
-Linux/macOS
+#### **Linux/macOS**
+```bash
 export MAX_RESTAURANTES=10
+```
 
-5. Executar o Script
-Com o ambiente virtual ativado e as variáveis configuradas, execute o script:
+### 5. Executar o Script
+
+Com tudo configurado, rode o script:
+```bash
 python duo_google.py
+```
 
-Como Funciona
+## Como Funciona
 
-Coletar Links dos Restaurantes:
+1. **Coletar Links**:
+   - Acessa a página de restaurantes de São Paulo do DuoGourmet (`https://www.duogourmet.com.br/restaurantes/sao-paulo`).
+   - Filtra URLs já processadas no CSV existente.
+   - Ordena os restaurantes por nome e limita ao número definido em `MAX_RESTAURANTES`.
 
-O script acessa a página de restaurantes de São Paulo do DuoGourmet (https://www.duogourmet.com.br/restaurantes/sao-paulo).
-Filtra URLs já processadas, verificando o arquivo CSV existente.
-Ordena os restaurantes alfabeticamente e limita ao número definido em MAX_RESTAURANTES.
+2. **Extrair Informações**:
+   - Para cada restaurante, coleta:
+     - Nome
+     - Endereço
+     - Contato
+     - Tipo de cozinha
+     - Disponibilidade de almoço e jantar por dia ("X" para dias disponíveis)
+   - Usa a biblioteca **BeautifulSoup** para parsear o HTML.
 
+3. **Localizar Estações de Metrô**:
+   - Limpa o endereço do restaurante e usa a **Geocoding API** para obter coordenadas.
+   - A **Places API** encontra a estação de metrô mais próxima (raio de 3 km).
+   - A **Distance Matrix API** calcula a distância a pé e o tempo até a estação.
 
-Extrair Detalhes dos Restaurantes:
+4. **Salvar Resultados**:
+   - Gera o arquivo `restaurantes_com_metro_google.csv` com colunas para restaurante, metrô e horários.
+   - Adiciona novos dados sem sobrescrever os existentes, escrevendo o cabeçalho apenas se o arquivo for novo.
 
-Para cada URL de restaurante, o script coleta:
-Nome
-Endereço
-Contato
-Tipo de cozinha
-Disponibilidade de almoço e jantar por dia da semana (indicado por "X" nos dias disponíveis)
+5. **Tratamento de Erros**:
+   - Faz até `MAX_RETRIES` tentativas em caso de falhas na API.
+   - Inclui delays para respeitar limites de taxa.
+   - Lida com endereços inválidos, retornando "N/A" quando necessário.
 
+## Saída
 
-Usa a biblioteca BeautifulSoup para parsear o HTML.
+O script cria o arquivo `restaurantes_com_metro_google.csv` com as seguintes colunas:
 
+- `nome`: Nome do restaurante
+- `endereco`: Endereço completo
+- `contato`: Informações de contato
+- `cozinha`: Tipo de cozinha
+- `link`: URL do restaurante
+- `Estacao`: Nome da estação de metrô mais próxima
+- `Distancia`: Distância até a estação (em metros)
+- `Tempo`: Tempo a pé até a estação (em minutos)
+- `almoco_dom`, `almoco_seg`, ..., `almoco_sab`: Disponibilidade de almoço ("X" se disponível)
+- `jantar_dom`, `jantar_seg`, ..., `jantar_sab`: Disponibilidade de jantar ("X" se disponível)
 
-Encontrar a Estação de Metrô Mais Próxima:
+Você pode baixar a lista gerada na seção de [**Releases**](#saída) do repositório.
 
-O endereço do restaurante é limpo e enviado à API de Geocoding do Google para obter coordenadas (latitude e longitude).
-A API de Places do Google busca a estação de metrô mais próxima em um raio de 3 km.
-A API de Distance Matrix calcula a distância a pé e o tempo até a estação.
+## Exemplo de Uso
 
-
-Salvar Dados:
-
-Os dados são salvos no arquivo restaurantes_com_metro_google.csv com colunas para:
-Nome, endereço, contato, tipo de cozinha e URL do restaurante
-Nome da estação de metrô mais próxima, distância (em metros) e tempo a pé (em minutos)
-Disponibilidade de almoço e jantar para cada dia da semana
-
-
-O arquivo CSV é atualizado incrementalmente, preservando dados existentes, e o cabeçalho é escrito apenas se o arquivo for novo.
-
-
-Tratamento de Erros:
-
-O script lida com erros de API com retentativas (até MAX_RETRIES tentativas).
-Inclui delays entre requisições para evitar limites de taxa.
-Endereços inválidos ou ausentes são tratados, retornando "N/A" nos campos correspondentes.
-
-
-
-Saída
-O script gera um arquivo CSV (restaurantes_com_metro_google.csv) com as seguintes colunas:
-
-nome: Nome do restaurante
-endereco: Endereço do restaurante
-contato: Informações de contato
-cozinha: Tipo de cozinha
-link: URL do restaurante
-Estacao: Nome da estação de metrô mais próxima
-Distancia: Distância até a estação (em metros)
-Tempo: Tempo a pé até a estação (em minutos)
-almoco_dom, almoco_seg, ..., almoco_sab: Disponibilidade de almoço por dia ("X" se disponível)
-jantar_dom, jantar_seg, ..., jantar_sab: Disponibilidade de jantar por dia ("X" se disponível)
-
-Você também pode baixar a lista de restaurantes gerada na seção de Releases.
-Exemplo de Uso
+```bash
 # Ativar ambiente virtual
 source venv/bin/activate  # Linux/macOS
 venv\Scripts\activate     # Windows
 
-# Configurar variáveis de ambiente
+# Configurar variáveis
 export GOOGLE_API_KEY="sua_chave_de_api_aqui"  # Linux/macOS
 set GOOGLE_API_KEY=sua_chave_de_api_aqui       # Windows
 export MAX_RESTAURANTES=5                      # Linux/macOS
@@ -174,8 +179,10 @@ pip install -r requirements.txt
 
 # Executar o script
 python duo_google.py
+```
 
-Exemplo de Saída no Terminal:
+**Exemplo de Saída no Terminal**:
+```
 Coletando links de restaurantes...
 5 novos restaurantes serão processados (ordenados alfabeticamente, limite: 5).
 
@@ -188,13 +195,22 @@ Processando 1/5: https://www.duogourmet.com.br/restaurantes/sao-paulo/restaurant
 ...
 
 ✅ Concluído! Dados salvos em restaurantes_com_metro_google.csv
+```
 
-Observações
+## Por que Usar?
 
-Custos da API: As APIs do Google Maps têm custos associados ao uso. Monitore o uso no Google Cloud Console.
-Limites de Taxa: O script inclui um delay (GOOGLE_API_DELAY) para evitar limites de taxa da API. Ajuste se necessário.
-Precisão dos Dados: A precisão das informações sobre estações de metrô depende das APIs do Google Maps e dos endereços fornecidos.
-Sustentabilidade: Ao priorizar restaurantes acessíveis por metrô, o projeto incentiva o uso de transporte público, reduzindo emissões de carbono e o estresse no trânsito.
+Este projeto não é só sobre comer bem com o DuoGourmet, mas sobre fazer isso de forma **consciente** e **tranquila**. Ao escolher o metrô, você:
+- **Reduz emissões**: Diminui o uso de carros, ajudando a combater a poluição e as mudanças climáticas.
+- **Evita estresse**: Esqueça os engarrafamentos e os aborrecimentos do trânsito paulistano.
+- **Planeja com facilidade**: Encontra restaurantes acessíveis com informações claras sobre distância e tempo a pé.
 
-Licença
-Este projeto está licenciado sob a Licença MIT. Sinta-se à vontade para modificar e distribuir conforme necessário.
+## Observações
+
+- **Custos da API**: As APIs do Google Maps têm custos. Monitore seu uso no Google Cloud Console.
+- **Limites de Taxa**: O script inclui delays para evitar problemas com limites de requisições.
+- **Precisão**: Os dados de estações dependem da qualidade dos endereços e das APIs do Google.
+- **Sustentabilidade**: Este projeto incentiva o transporte público, contribuindo para um futuro mais verde e uma São Paulo mais tranquila.
+
+## Licença
+
+Licenciado sob a [Licença MIT](https://opensource.org/licenses/MIT). Sinta-se à vontade para usar, modificar e compartilhar!
