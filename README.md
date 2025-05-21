@@ -2,7 +2,7 @@
 
 ## Introdução
 
-Imagine saborear uma refeição incrível com o benefício do DuoGourmet, que te dá um segundo prato grátis ou um desconto no segundo rodízio em restaurantes selecionados de São Paulo, sem o estresse do trânsito! Em uma cidade onde engarrafamentos são rotina, o aumento das emissões de combustíveis fósseis e o nervosismo ao volante podem acabar com o prazer de sair para comer. Este projeto foi criado para transformar sua experiência gastronômica, promovendo **sustentabilidade** e **tranquilidade**. Ele mapeia os restaurantes do DuoGourmet e encontra as estações de metrô mais próximas, com distância e tempo a pé, permitindo que você chegue ao seu destino de forma prática, ecológica e sem os aborrecimentos do trânsito.
+Imagine saborear uma refeição incrível com o benefício do DuoGourmet, que te dá um segundo prato grátis em restaurantes selecionados de São Paulo, sem o estresse do trânsito! Em uma cidade onde engarrafamentos são rotina, o aumento das emissões de combustíveis fósseis e o nervosismo ao volante podem acabar com o prazer de sair para comer. Este projeto foi criado para transformar sua experiência gastronômica, promovendo **sustentabilidade** e **tranquilidade**. Ele mapeia os restaurantes do DuoGourmet e encontra as estações de metrô mais próximas, com distância e tempo a pé, permitindo que você chegue ao seu destino de forma prática, ecológica e sem os aborrecimentos do trânsito.
 
 A lista completa de restaurantes, com todas as informações coletadas, pode ser baixada na seção de [**Releases**](#saída) deste repositório, no arquivo `restaurantes_com_metro_google.csv`.
 
