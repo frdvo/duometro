@@ -4,6 +4,7 @@ from collections import defaultdict
 # Configuração - altere estes valores
 ARQUIVO_ANTIGO = 'restaurantes_com_metro_google_anterior.csv'
 ARQUIVO_NOVO = 'restaurantes_com_metro_google.csv'
+IGNORAR_DISTANCIA = 0.25  # 0.1 = 10% de variação
 
 # Emojis para decorar a saída
 EMOJI_REMOVIDO = "❌"
@@ -54,6 +55,23 @@ def formatar_campo_metro(campo, valor):
         return f"{EMOJI_TEMPO} Tempo a pé: {valor}min"
     return f"{campo}: {valor}"
 
+def deve_mostrar_mudanca(campo, valor_antigo, valor_novo, limite=IGNORAR_DISTANCIA):
+    try:
+        if campo == 'Distancia' or campo == 'Tempo':
+            antigo = float(valor_antigo)
+            novo = float(valor_novo)
+            if antigo == 0:  # Evitar divisão por zero
+                return True
+            
+            # Calcula a variação relativa (0.8 = 20% menor, 1.2 = 20% maior)
+            variacao = novo / antigo
+            
+            # Se estiver fora do intervalo [1-limite, 1+limite]
+            return variacao < (1 - limite) or variacao > (1 + limite)
+    except (ValueError, TypeError):
+        pass
+    return True  # Se não for numérico ou der erro, mostra a mudança
+
 def comparar_restaurantes(antigos, novos):
     removidos = set(antigos.keys()) - set(novos.keys())
     adicionados = set(novos.keys()) - set(antigos.keys())
@@ -69,6 +87,9 @@ def comparar_restaurantes(antigos, novos):
             valor_novo = novo.get(campo, '')
             
             if valor_antigo != valor_novo:
+                # Verifica se é uma mudança pequena que deve ser ignorada
+                if campo in ['Distancia', 'Tempo'] and not deve_mostrar_mudanca(campo, valor_antigo, valor_novo):
+                    continue
                 campos_modificados[campo] = {'antigo': valor_antigo, 'novo': valor_novo}
         
         if campos_modificados:
