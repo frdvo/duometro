@@ -77,7 +77,7 @@ def comparar_restaurantes(antigos, novos):
     return removidos, adicionados, modificados
 
 def main():
-    print(f"🔍 Comparando arquivos: {ARQUIVO_ANTIGO} (antigo) e {ARQUIVO_NOVO} (novo)")
+    print(f"Novidades da release:")
     
     try:
         antigos = ler_restaurantes(ARQUIVO_ANTIGO)

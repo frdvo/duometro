@@ -19,11 +19,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       
-    - name: Generate current date tag
+    - name: Generate unique tag and release name
       id: date-tag
       run: |
-        CURRENT_DATE=$(date +'%Y%m%d')
-        echo "tag_name=v$CURRENT_DATE" >> $GITHUB_OUTPUT
+        CURRENT_TIMESTAMP=$(date +'%Y%m%d-%H%M%S')
+        echo "tag_name=v$CURRENT_TIMESTAMP" >> $GITHUB_OUTPUT
+        echo "release_name=Release $CURRENT_TIMESTAMP" >> $GITHUB_OUTPUT
       
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -101,6 +102,6 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         tag_name: ${{ steps.date-tag.outputs.tag_name }}
-        release_name: Release ${{ steps.date-tag.outputs.tag_name }}
+        release_name: ${{ steps.date-tag.outputs.release_name }}
         body: ${{ env.BODY }}
         files: restaurantes_com_metro_google.csv
