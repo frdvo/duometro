@@ -2,7 +2,7 @@
 
 ## Introdução
 
-Imagine saborear uma refeição incrível com o benefício do DuoGourmet, que te dá um segundo prato grátis em restaurantes selecionados de São Paulo, sem o estresse do trânsito! Em uma cidade onde engarrafamentos são rotina, o aumento das emissões de combustíveis fósseis e o nervosismo ao volante podem acabar com o prazer de sair para comer. Este projeto foi criado para transformar sua experiência gastronômica, promovendo **sustentabilidade** e **tranquilidade**. Ele mapeia os restaurantes do DuoGourmet e encontra as estações de metrô mais próximas, com distância e tempo a pé, permitindo que você chegue ao seu destino de forma prática, ecológica e sem os aborrecimentos do trânsito.
+Imagine saborear uma refeição incrível com o benefício do DuoGourmet, que te dá um segundo prato grátis em restaurantes selecionados de São Paulo, sem o estresse do trânsito! Em uma cidade onde engarrafamentos são rotina, o aumento das emissões de carbono e o nervosismo ao volante podem acabar com o prazer de sair para comer. Este projeto foi criado para transformar sua experiência gastronômica, promovendo **sustentabilidade** e **tranquilidade**. Ele mapeia os restaurantes do DuoGourmet e encontra as estações de metrô mais próximas, com distância e tempo a pé, permitindo que você chegue ao seu destino de forma prática, ecológica e sem os aborrecimentos do trânsito.
 
 A **lista completa de restaurantes**, com todas as informações coletadas, pode ser **baixada** na seção de [**Releases**](https://github.com/frdvo/duometro/releases) deste repositório, no arquivo `restaurantes_com_metro_google.csv`.
 
@@ -159,7 +159,7 @@ O script cria o arquivo `restaurantes_com_metro_google.csv` com as seguintes col
 - `almoco_dom`, `almoco_seg`, ..., `almoco_sab`: Disponibilidade de almoço ("X" se disponível)
 - `jantar_dom`, `jantar_seg`, ..., `jantar_sab`: Disponibilidade de jantar ("X" se disponível)
 
-Você pode baixar a lista gerada na seção de [**Releases**](#saída) do repositório.
+Você pode baixar a lista gerada na seção de [**Releases**](https://github.com/frdvo/duometro/releases) do repositório.
 
 ## Exemplo de Uso
 
@@ -214,4 +214,4 @@ Este projeto não é só sobre comer bem com o DuoGourmet, mas sobre fazer isso 
 ## Licença
 
 Licenciado sob a [Licença MIT](https://opensource.org/licenses/MIT). Sinta-se à vontade para usar, modificar e compartilhar!
-](https://github.com/frdvo/duometro/releases)
+](https://github.com/frdvo/duometro)
