@@ -2,10 +2,9 @@ name: Cria a lista do Duo e Metro SP via Google e cria release
 on:
   workflow_dispatch:
 
-# Adiciona permissões necessárias para o GITHUB_TOKEN
 permissions:
-  contents: write  # Necessário para criar releases e fazer upload de assets
-  actions: read    # Necessário para listar artifacts
+  contents: write
+  actions: read
 
 env:
   MAX_RESTAURANTES: ${{ vars.MAX_RESTAURANTES }}
@@ -42,9 +41,16 @@ jobs:
     - name: Check if CSV exists
       run: test -f restaurantes_com_metro_google.csv || { echo "CSV file not found"; exit 1; }
 
+    - name: Install GitHub CLI and jq
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gh jq
+
     - name: Get previous artifact
       id: get-previous-artifact
-      continue-on-error: true  # Permite continuar se não houver artifact anterior
+      continue-on-error: true
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
         # Lista todos os artifacts
         ARTIFACTS_JSON=$(gh api repos/${{ github.repository }}/actions/artifacts)
@@ -60,8 +66,11 @@ jobs:
           echo "has_previous=true" >> $GITHUB_OUTPUT
           echo "prev_artifact_id=$PREV_ARTIFACT_ID" >> $GITHUB_OUTPUT
           
-          # Download do artifact
-          gh api repos/${{ github.repository }}/actions/artifacts/$PREV_ARTIFACT_ID/zip --output previous_artifact.zip
+          # Download do artifact usando redirecionamento
+          curl -L -H "Authorization: token $GH_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$PREV_ARTIFACT_ID/zip > previous_artifact.zip
+          
           unzip previous_artifact.zip -d .
           mv restaurantes_com_metro_google.csv restaurantes_com_metro_google_anterior.csv
         fi
