@@ -40,7 +40,10 @@ jobs:
       run: python duo_google.py || { echo "Script failed"; exit 1; }
       
     - name: Check if CSV exists
-      run: test -f restaurantes_com_metro_google.csv || { echo "CSV file not found"; exit 1; }
+      run: |
+        test -f restaurantes_com_metro_google.csv || { echo "CSV file not found"; exit 1; }
+        echo "=== Current CSV head ==="
+        head -n 3 restaurantes_com_metro_google.csv
 
     - name: Install GitHub CLI and jq
       run: |
@@ -68,23 +71,33 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$PREV_ARTIFACT_ID/zip > previous_artifact.zip
 
-          mkdir temp_artifact
-          unzip previous_artifact.zip -d temp_artifact
-          mv temp_artifact/restaurantes_com_metro_google.csv ./restaurantes_com_metro_google_anterior.csv
-          rm -rf temp_artifact previous_artifact.zip
+          mkdir -p temp_artifact
+          unzip -o previous_artifact.zip -d temp_artifact
           
-          if [ ! -f restaurantes_com_metro_google_anterior.csv ]; then
-            echo "Previous CSV file not found"
-            exit 1
-          fi
+          # Verifica o conteúdo do zip
+          echo "=== Contents of downloaded artifact ==="
+          ls -la temp_artifact/
+          
+          # Corrige o caminho do arquivo anterior
+          find temp_artifact -name "*.csv" -exec mv {} ./restaurantes_com_metro_google_anterior.csv \;
+          
+          echo "=== Previous CSV head ==="
+          head -n 3 restaurantes_com_metro_google_anterior.csv || echo "No previous CSV found"
+          
+          rm -rf temp_artifact previous_artifact.zip
         fi
 
     - name: Generate release notes
       id: generate-release-notes
       run: |
         if [ "${{ steps.get-previous-artifact.outputs.has_previous }}" = "true" ]; then
+          echo "=== Comparing files ==="
+          ls -la *.csv
           echo "Running diff.py..."
-          RELEASE_NOTES=$(python diff.py)
+          python diff.py > diff_output.txt
+          RELEASE_NOTES=$(cat diff_output.txt)
+          echo "=== Diff output ==="
+          cat diff_output.txt
         else
           RELEASE_NOTES="🚀 Primeira versão da lista de restaurantes"
         fi
