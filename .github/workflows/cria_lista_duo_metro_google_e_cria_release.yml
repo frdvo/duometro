@@ -5,6 +5,7 @@ on:
 # Adiciona permissões necessárias para o GITHUB_TOKEN
 permissions:
   contents: write  # Necessário para criar releases e fazer upload de assets
+  actions: read    # Necessário para listar artifacts
 
 env:
   MAX_RESTAURANTES: ${{ vars.MAX_RESTAURANTES }}
@@ -39,7 +40,42 @@ jobs:
       
     - name: Check if CSV exists
       run: test -f restaurantes_com_metro_google.csv || { echo "CSV file not found"; exit 1; }
-      
+
+    - name: Get previous artifact
+      id: get-previous-artifact
+      continue-on-error: true  # Permite continuar se não houver artifact anterior
+      run: |
+        # Lista todos os artifacts
+        ARTIFACTS_JSON=$(gh api repos/${{ github.repository }}/actions/artifacts)
+        
+        # Filtra pelo artifact "restaurantes_csv" e pega o mais recente (excluindo o atual se existir)
+        PREV_ARTIFACT_ID=$(echo "$ARTIFACTS_JSON" | jq -r '.artifacts[] | select(.name == "restaurantes_csv") | .id' | sort -nr | head -2 | tail -1)
+        
+        if [ -z "$PREV_ARTIFACT_ID" ]; then
+          echo "No previous artifact found"
+          echo "has_previous=false" >> $GITHUB_OUTPUT
+        else
+          echo "Found previous artifact ID: $PREV_ARTIFACT_ID"
+          echo "has_previous=true" >> $GITHUB_OUTPUT
+          echo "prev_artifact_id=$PREV_ARTIFACT_ID" >> $GITHUB_OUTPUT
+          
+          # Download do artifact
+          gh api repos/${{ github.repository }}/actions/artifacts/$PREV_ARTIFACT_ID/zip --output previous_artifact.zip
+          unzip previous_artifact.zip -d .
+          mv restaurantes_com_metro_google.csv restaurantes_com_metro_google_anterior.csv
+        fi
+        
+    - name: Generate release notes
+      id: generate-release-notes
+      run: |
+        if [ "${{ steps.get-previous-artifact.outputs.has_previous }}" = "true" ]; then
+          echo "Running diff.py..."
+          RELEASE_NOTES=$(python diff.py)
+        else
+          RELEASE_NOTES="Primeira versão da lista de restaurantes"
+        fi
+        echo "release_notes=$RELEASE_NOTES" >> $GITHUB_OUTPUT
+        
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
@@ -54,6 +90,7 @@ jobs:
       with:
         tag_name: ${{ steps.date-tag.outputs.tag_name }}
         release_name: Release ${{ steps.date-tag.outputs.tag_name }}
+        body: ${{ steps.generate-release-notes.outputs.release_notes }}
         draft: false
         prerelease: false
         
