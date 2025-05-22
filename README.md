@@ -1,4 +1,4 @@
-# Scraper de Restaurantes DuoGourmet com Busca de Estações de Metrô
+# Scraper de Restaurantes DuoGourmet com Busca de Estações de Metrô de SP
 
 ## Introdução
 
