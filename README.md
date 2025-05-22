@@ -1,4 +1,4 @@
-# Scraper de Restaurantes DuoGourmet com Busca de Estações de Metrô
+[# Scraper de Restaurantes DuoGourmet com Busca de Estações de Metrô
 
 ## Introdução
 
@@ -214,3 +214,4 @@ Este projeto não é só sobre comer bem com o DuoGourmet, mas sobre fazer isso 
 ## Licença
 
 Licenciado sob a [Licença MIT](https://opensource.org/licenses/MIT). Sinta-se à vontade para usar, modificar e compartilhar!
+](https://github.com/frdvo/duometro/releases)
