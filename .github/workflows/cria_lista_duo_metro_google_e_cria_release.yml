@@ -71,8 +71,16 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$PREV_ARTIFACT_ID/zip > previous_artifact.zip
           
-          unzip previous_artifact.zip -d .
-          mv restaurantes_com_metro_google.csv restaurantes_com_metro_google_anterior.csv
+          mkdir temp_artifact
+          unzip previous_artifact.zip -d temp_artifact
+          mv temp_artifact/restaurantes_com_metro_google.csv ./restaurantes_com_metro_google_anterior.csv
+          rm -rf temp_artifact previous_artifact.zip
+          echo "Previous artifact downloaded and extracted"
+          # Verifica se o arquivo CSV anterior existe
+          if [ ! -f restaurantes_com_metro_google_anterior.csv ]; then
+            echo "Previous CSV file not found"
+            exit 1
+          fi
         fi
         
     - name: Generate release notes
