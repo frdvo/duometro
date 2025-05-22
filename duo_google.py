@@ -15,7 +15,7 @@ CSV_FILE = "restaurantes_com_metro_google.csv"
 DAYS = ["dom", "seg", "ter", "qua", "qui", "sex", "sab"]
 GOOGLE_API_DELAY = 0.1
 MAX_RETRIES = 3
-MAX_RESTAURANTES = os.getenv("MAX_RESTAURANTES", 5)
+MAX_RESTAURANTES = int(os.getenv("MAX_RESTAURANTES", 5))
 
 def clean_address(address):
     """Remove caracteres problemáticos e formata o endereço"""
