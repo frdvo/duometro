@@ -1,2 +1,5 @@
 venv
 restaurantes_com_metro_google.csv
+restaurantes_com_metro_google_anterior.csv
+.DS_Store
+__pycache__/

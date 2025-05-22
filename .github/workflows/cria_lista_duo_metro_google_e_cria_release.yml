@@ -2,13 +2,14 @@ name: Cria a lista do Duo e Metro SP via Google e cria release
 on:
   workflow_dispatch:
 
-# Adiciona permissões necessárias para o GITHUB_TOKEN
 permissions:
-  contents: write  # Necessário para criar releases e fazer upload de assets
+  contents: write
+  actions: read
 
 env:
   MAX_RESTAURANTES: ${{ vars.MAX_RESTAURANTES }}
   GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+  GH_TOKEN: ${{ github.token }}
 
 jobs:
   run-script-and-release:
@@ -18,11 +19,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       
-    - name: Generate current date tag
+    - name: Generate unique tag and release name
       id: date-tag
       run: |
-        CURRENT_DATE=$(date +'%Y%m%d')
-        echo "tag_name=v$CURRENT_DATE" >> $GITHUB_OUTPUT
+        CURRENT_TIMESTAMP=$(date +'%Y%m%d-%H%M%S')
+        echo "tag_name=v$CURRENT_TIMESTAMP" >> $GITHUB_OUTPUT
+        echo "release_name=Release $CURRENT_TIMESTAMP" >> $GITHUB_OUTPUT
       
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -39,7 +41,55 @@ jobs:
       
     - name: Check if CSV exists
       run: test -f restaurantes_com_metro_google.csv || { echo "CSV file not found"; exit 1; }
-      
+
+    - name: Install GitHub CLI and jq
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gh jq
+
+    - name: Get previous artifact
+      id: get-previous-artifact
+      continue-on-error: true
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        ARTIFACTS_JSON=$(gh api repos/${{ github.repository }}/actions/artifacts)
+        PREV_ARTIFACT_ID=$(echo "$ARTIFACTS_JSON" | jq -r '.artifacts[] | select(.name == "restaurantes_csv") | .id' | sort -nr | head -2 | tail -1)
+
+        if [ -z "$PREV_ARTIFACT_ID" ]; then
+          echo "No previous artifact found"
+          echo "has_previous=false" >> $GITHUB_OUTPUT
+        else
+          echo "Found previous artifact ID: $PREV_ARTIFACT_ID"
+          echo "has_previous=true" >> $GITHUB_OUTPUT
+          echo "prev_artifact_id=$PREV_ARTIFACT_ID" >> $GITHUB_OUTPUT
+
+          curl -L -H "Authorization: token $GH_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$PREV_ARTIFACT_ID/zip > previous_artifact.zip
+
+          mkdir -p temp_artifact
+          unzip -o previous_artifact.zip -d temp_artifact
+          
+          # Encontra e move qualquer CSV dentro do artifact
+          find temp_artifact -name "*.csv" -exec mv {} ./restaurantes_com_metro_google_anterior.csv \;
+          
+          rm -rf temp_artifact previous_artifact.zip
+        fi
+
+    - name: Generate release notes
+      id: generate-release-notes
+      run: |
+        if [ "${{ steps.get-previous-artifact.outputs.has_previous }}" = "true" ]; then
+          python diff.py > diff_output.txt
+          RELEASE_NOTES=$(cat diff_output.txt)
+        else
+          RELEASE_NOTES="🚀 Primeira versão da lista de restaurantes"
+        fi
+        echo "BODY<<EOF" >> $GITHUB_ENV
+        echo "$RELEASE_NOTES" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
@@ -47,23 +97,9 @@ jobs:
         path: restaurantes_com_metro_google.csv
         
     - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v1
       with:
         tag_name: ${{ steps.date-tag.outputs.tag_name }}
-        release_name: Release ${{ steps.date-tag.outputs.tag_name }}
-        draft: false
-        prerelease: false
-        
-    - name: Upload Release Asset
-      id: upload-release-asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./restaurantes_com_metro_google.csv
-        asset_name: restaurantes_com_metro_google.csv
-        asset_content_type: text/csv
+        release_name: ${{ steps.date-tag.outputs.release_name }}
+        body: ${{ env.BODY }}
+        files: restaurantes_com_metro_google.csv
