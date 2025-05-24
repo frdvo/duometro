@@ -1,0 +1,86 @@
+Linha,Nome da Estacao,Endereco,Latitude,Longitude
+1-Azul,Tucuruvi,Av. Dr. Antonio Maria de Laet 150,-23.4802945,-46.6036113
+1-Azul,Parada Inglesa,Av. Luiz Dumont Villares 672,-23.4961021,-46.6116826
+1-Azul,Jardim Sao Paulo-Ayrton Senna,Av. Leovigildo Coelho 300,-23.5557714,-46.6395571
+1-Azul,Santana,Av. Cruzeiro do Sul 3173,-23.5027387,-46.6251067
+1-Azul,Carandiru,Av. Cruzeiro do Sul 2457,-23.5093049,-46.625268
+1-Azul,Portuguesa-Tiete,Av. Cruzeiro do Sul 1800,-23.5162368,-46.6237605
+1-Azul,Armenia,Av. Santos Dumont 200,-23.5250356,-46.6306601
+1-Azul,Tiradentes,Av. Tiradentes 900,-23.5279439,-46.6308514
+1-Azul,Luz,Av. Prestes Maia 925,-23.5364809,-46.633849
+1-Azul,Sao Bento,Largo Sao Bento s/n,-23.5439553,-46.6340382
+1-Azul,Se,Praca da Se s/n,-23.5503099,-46.6342009
+1-Azul,Japao-Liberdade,Praca da Liberdade 133,-23.5553391,-46.635653
+1-Azul,Sao Joaquim,R. Dr. Jose de Queiroz Aranha 200,-23.5805389,-46.6364863
+1-Azul,Paraiso,R. Vergueiro 1456,-23.5748973,-46.6407641
+1-Azul,Ana Rosa,R. Domingos de Morais 505,-23.5814676,-46.6388371
+1-Azul,Vila Mariana,Av. Prof. Noe Azevedo 255,-23.5887382,-46.6343996
+1-Azul,Santa Cruz,R. Domingos de Morais 2564,-23.59909,-46.6372072
+1-Azul,Praca da Arvore,Praca da Arvore 39,-23.6108161,-46.6375659
+1-Azul,Saude-Ultrafarma,Av. Jabaquara 1634,-23.6184742,-46.6393685
+1-Azul,Sao Judas,Av. Jabaquara 2438,-23.6255275,-46.6411003
+1-Azul,Conceicao,Av. Eng. Armando de Arruda Pereira 919,-23.6353726,-46.6411072
+1-Azul,Jabaquara,R. dos Jequitibas 80,-23.6465719,-46.6423157
+2-Verde,Vila Prudente,R. Cavour 156,-23.5840369,-46.5830193
+2-Verde,Tamanduatei,Av. Presidente Wilson 4841,-23.5936401,-46.5904566
+2-Verde,Sacoma,R. Greenfeld s/n,-23.6013761,-46.602767
+2-Verde,Alto do Ipiranga,R. Dr. Gentil de Moura s/n,-23.6019708,-46.6055894
+2-Verde,Santos-Imigrantes,Viaduto Saioa s/n,-23.5954173,-46.6211295
+2-Verde,Chacara Klabin,R. Vergueiro s/n,-23.5927578,-46.6211537
+2-Verde,Brigadeiro,Av. Paulista 447,-23.5688196,-46.6481779
+2-Verde,Trianon-MASP,Av. Paulista 1400,-23.5626862,-46.6546298
+2-Verde,Consolacao,Av. Paulista 2163,-23.5577624,-46.6606104
+2-Verde,Clinicas,Av. Dr. Arnaldo 555,-23.5543572,-46.670534
+2-Verde,Santuario N.Sra. de Fatima-Sumare,Av. Dr. Arnaldo 1470,-23.5504192,-46.6779933
+2-Verde,Vila Madalena,Praca Americo Jacomino 30,-23.5468454,-46.6908958
+3-Vermelha,Corinthians-Itaquera,Av. Projetada 1900,-23.7466529,-46.7818291
+3-Vermelha,Artur Alvim,R. Dr. Luiz Ayres 2050,-23.5424179,-46.4829732
+3-Vermelha,Patriarca-Vila Re,Av. Antonio Estevao de Carvalho 1990,-23.5311493,-46.5014673
+3-Vermelha,Guilhermina-Esperanca,R. Astorga 800,-23.5304254,-46.5172513
+3-Vermelha,Vila Matilde,R. Cel. Pedro Dias de Campos 1173,-23.5326411,-46.531007
+3-Vermelha,Penha,Av. Conde Frontim s/n,-23.5334571,-46.5402103
+3-Vermelha,Carrao-Assai Atacadista,Av. Radial Leste s/n,-23.532303,-46.5289009
+3-Vermelha,Tatuape,R. Melo Freire s/n,-23.5391591,-46.5695219
+3-Vermelha,Belem,Av. Alcantara Machado s/n,-23.5476707,-46.6023316
+3-Vermelha,Bresser-Mooca,R. do Hipodromo s/n,-23.5552111,-46.6022265
+3-Vermelha,Bras,R. Domingos Paiva s/n,-23.5467125,-46.6160144
+3-Vermelha,Pedro II,R. da Figueira s/n,-23.5490507,-46.6257085
+3-Vermelha,Anhangabau,R. Formosa s/n,-23.5463455,-46.6378899
+3-Vermelha,Republica,R. do Arouche 24,-23.5430052,-46.6439961
+3-Vermelha,Santa Cecilia,Largo de Santa Cecilia s/n,-23.5393663,-46.6498664
+3-Vermelha,Marechal Deodoro,Praca Marechal Deodoro s/n,-23.5343007,-46.6547414
+3-Vermelha,Palmeiras-Barra Funda,Av. Auro Soares de Moura Andrade s/n,-23.5264682,-46.6687218
+4-Amarela,Higienopolis-Mackenzie,R. da Consolacao 1050,-23.5487074,-46.6520558
+4-Amarela,Paulista-Pernambucanas,R. da Consolacao 2367,-23.551886,-46.6578141
+4-Amarela,Oscar Freire,Av. Reboucas 1084,-23.5605624,-46.6722498
+4-Amarela,Fradique Coutinho,R. dos Pinheiros 623,-23.5661878,-46.6840206
+4-Amarela,Faria Lima,Av. Brigadeiro Faria Lima 948,-23.5671694,-46.6942019
+4-Amarela,Pinheiros,R. Capri 145,-23.5674438,-46.7014455
+4-Amarela,Butanta,Av. Vital Brasil 427,-23.5717494,-46.7084256
+4-Amarela,Sao Paulo-Morumbi,Av. Deputado Jacob Salvador Zveibil 50,-23.5865167,-46.7245543
+4-Amarela,Vila Sonia-Profa. Elisabeth Tenreiro,Av. Professor Francisco Morato 4009,-23.5937315,-46.7348091
+5-Lilas,Capao Redondo,Av. Carlos Caldeira Filho 426,-23.6386932,-46.7379448
+5-Lilas,Campo Limpo,R. Noanama s/n,-23.6499586,-46.7604712
+5-Lilas,Vila das Belezas,Av. das Belezas 901,-23.6406546,-46.7463225
+5-Lilas,Giovanni Gronchi,Av. Joao Dias 3501,-23.6442369,-46.7336036
+5-Lilas,Santo Amaro,Av. Guido Caloi s/n,-23.6554921,-46.7243295
+5-Lilas,Largo Treze,Av. Padre Jose Maria 555,-23.6545516,-46.7109794
+5-Lilas,Adolfo Pinheiro,Av. Adolfo Pinheiro 1101,-23.6439496,-46.7000358
+5-Lilas,Alto da Boa Vista,Av. Adolfo Pinheiro 2029,-23.6367431,-46.6951294
+5-Lilas,Borba Gato,Av. Santo Amaro 6670,-23.63879,-46.6976011
+5-Lilas,Brooklin,Av. Roque Petroni Junior 828,-23.6239353,-46.6949698
+5-Lilas,Campo Belo,Av. Santo Amaro 4827,-23.6257498,-46.6864574
+5-Lilas,Eucaliptos,Av. Ibirapuera 3101,-23.610478,-46.6667941
+5-Lilas,Moema,Av. Ibirapuera 2551,-23.606119,-46.6641845
+5-Lilas,AACD-Servidor,R. Pedro de Toledo 1800,-23.5972362,-46.6544467
+5-Lilas,Hospital Sao Paulo,R. Pedro de Toledo 950,-23.5979957,-46.6459757
+15-Prata,Oratorio,Av. do Oratorio 165,-23.5826504,-46.5619506
+15-Prata,Sao Lucas,Av. Prof. Luiz Ignacio de Anhaia Mello 5345,-23.6737791,-46.4963439
+15-Prata,Camilo Haddad,Av. Prof. Luiz Ignacio de Anhaia Mello 6620,-23.6737791,-46.4963439
+15-Prata,Vila Tolstoi,Av. Prof. Luiz Ignacio de Anhaia Mello 7712,-23.6737791,-46.4963439
+15-Prata,Vila Uniao,Av. Prof. Luiz Ignacio de Anhaia Mello 9109,-23.6737791,-46.4963439
+15-Prata,Jardim Planalto,Av. Sapopemba 9930,-23.6063912,-46.5080177
+15-Prata,Sapopemba,Av. Sapopemba 11260,-23.6148349,-46.5004889
+15-Prata,Fazenda da Juta,Av. Sapopemba 12780,-23.6104125,-46.4847113
+15-Prata,Sao Mateus,Av. Sapopemba 15126,-23.620724,-46.4664312
+15-Prata,Jardim Colonial,Av. Ragueb Chohfi s/n,-23.5948299,-46.4453441

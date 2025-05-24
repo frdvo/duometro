@@ -13,6 +13,7 @@ EMOJI_MODIFICADO = "🔄"
 EMOJI_METRO = "🚇"
 EMOJI_DISTANCIA = "📏"
 EMOJI_TEMPO = "⏱️"
+EMOJI_LINHA = "🟢"
 
 # Campos de dias da semana para formatação especial
 CAMPOS_ALMOCO = ['almoco_dom', 'almoco_seg', 'almoco_ter', 'almoco_qua', 'almoco_qui', 'almoco_sex', 'almoco_sab']
@@ -20,7 +21,7 @@ CAMPOS_JANTAR = ['jantar_dom', 'jantar_seg', 'jantar_ter', 'jantar_qua', 'jantar
 DIAS_SEMANA = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
 
 # Campos relacionados a metrô para tratamento especial
-CAMPOS_METRO = ['Estacao', 'Distancia', 'Tempo']
+CAMPOS_METRO = ['Linha', 'Estacao', 'Distancia', 'Tempo', 'Distancia_reta']
 
 def ler_restaurantes(arquivo):
     restaurantes = {}
@@ -47,17 +48,19 @@ def formatar_horarios(dados):
     return f"{cabecalho}\n{linha_almoco}\n{linha_jantar}"
 
 def formatar_campo_metro(campo, valor):
-    if campo == 'Estacao':
+    if campo == 'Linha':
+        return f"{EMOJI_LINHA} Linha: {valor}"
+    elif campo == 'Estacao':
         return f"{EMOJI_METRO} Estação: {valor}"
-    elif campo == 'Distancia':
-        return f"{EMOJI_DISTANCIA} Distância: {valor}m"
+    elif campo == 'Distancia' or campo == 'Distancia_reta':
+        return f"{EMOJI_DISTANCIA} {campo.replace('_', ' ').title()}: {valor}m"
     elif campo == 'Tempo':
         return f"{EMOJI_TEMPO} Tempo a pé: {valor}min"
     return f"{campo}: {valor}"
 
 def deve_mostrar_mudanca(campo, valor_antigo, valor_novo, limite=IGNORAR_DISTANCIA):
     try:
-        if campo == 'Distancia' or campo == 'Tempo':
+        if campo in ['Distancia', 'Tempo', 'Distancia_reta']:
             antigo = float(valor_antigo)
             novo = float(valor_novo)
             if antigo == 0:  # Evitar divisão por zero
@@ -77,6 +80,18 @@ def comparar_restaurantes(antigos, novos):
     adicionados = set(novos.keys()) - set(antigos.keys())
     modificados = defaultdict(dict)
     
+    # Verificar diferenças nas colunas
+    colunas_antigas = set()
+    for restaurante in antigos.values():
+        colunas_antigas.update(restaurante.keys())
+    
+    colunas_novas = set()
+    for restaurante in novos.values():
+        colunas_novas.update(restaurante.keys())
+    
+    colunas_adicionadas = colunas_novas - colunas_antigas
+    colunas_removidas = colunas_antigas - colunas_novas
+    
     for nome in set(antigos.keys()) & set(novos.keys()):
         antigo = antigos[nome]
         novo = novos[nome]
@@ -88,14 +103,14 @@ def comparar_restaurantes(antigos, novos):
             
             if valor_antigo != valor_novo:
                 # Verifica se é uma mudança pequena que deve ser ignorada
-                if campo in ['Distancia', 'Tempo'] and not deve_mostrar_mudanca(campo, valor_antigo, valor_novo):
+                if campo in ['Distancia', 'Tempo', 'Distancia_reta'] and not deve_mostrar_mudanca(campo, valor_antigo, valor_novo):
                     continue
                 campos_modificados[campo] = {'antigo': valor_antigo, 'novo': valor_novo}
         
         if campos_modificados:
             modificados[nome] = campos_modificados
     
-    return removidos, adicionados, modificados
+    return removidos, adicionados, modificados, colunas_adicionadas, colunas_removidas
 
 def main():
     print(f"Novidades da release:")
@@ -103,7 +118,18 @@ def main():
     try:
         antigos = ler_restaurantes(ARQUIVO_ANTIGO)
         novos = ler_restaurantes(ARQUIVO_NOVO)
-        removidos, adicionados, modificados = comparar_restaurantes(antigos, novos)
+        removidos, adicionados, modificados, colunas_adicionadas, colunas_removidas = comparar_restaurantes(antigos, novos)
+        
+        # Mostrar diferenças nas colunas
+        if colunas_adicionadas:
+            print(f"\n📌 Colunas adicionadas:")
+            for coluna in sorted(colunas_adicionadas):
+                print(f"  - {coluna}")
+        
+        if colunas_removidas:
+            print(f"\n📌 Colunas removidas:")
+            for coluna in sorted(colunas_removidas):
+                print(f"  - {coluna}")
         
         # Restaurantes removidos
         print(f"\n{EMOJI_REMOVIDO} {len(removidos)} Restaurantes removidos do Duo Gourmet:")
