@@ -1,5 +1,4 @@
-name: Cria a lista do Duo e Metro SP via Google e cria release
-on:
+name: Cria a lista do Duo e Metro SP
   workflow_dispatch:
 
 permissions:
