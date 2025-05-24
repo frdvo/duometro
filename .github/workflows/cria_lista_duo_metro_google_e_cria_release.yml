@@ -37,7 +37,7 @@ jobs:
         pip install -r requirements.txt
         
     - name: Run Python script
-      run: python duo_google.py || { echo "Script failed"; exit 1; }
+      run: python pega_os_duo.py || { echo "Script failed"; exit 1; }
       
     - name: Check if CSV exists
       run: test -f restaurantes_com_metro_google.csv || { echo "CSV file not found"; exit 1; }
