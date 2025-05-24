@@ -1,4 +1,5 @@
-name: Cria a lista do Duo e Metro SP
+name: Cria a lista do Duo e Metro
+on:
   workflow_dispatch:
 
 permissions:
