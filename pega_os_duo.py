@@ -18,7 +18,7 @@ GOOGLE_API_DELAY = 0.1  # Delay para a API do Google
 NOMINATIM_DELAY = 0.5  # Delay para a API Nominatim (respeitar política de uso)
 MAX_RETRIES = 3
 MAX_RESTAURANTS = int(os.getenv("MAX_RESTAURANTS", 5))
-REQUESTS_DELAY = 0.05
+REQUESTS_DELAY = 0.1
 STATIONS_CSV = "estacoes.csv"  # Arquivo com as estações de metrô
 MAX_DISTANCE = int(os.getenv("MAX_DISTANCE", 2000)) # Distância máxima em metros para considerar cálculo de rota a pé
 
