@@ -60,44 +60,52 @@ def haversine_distance(lat1, lon1, lat2, lon2):
     a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
     return R * 2 * atan2(sqrt(a), sqrt(1-a)) * 1000  # metros
 
-def clean_address(address):
+def clean_address(address, try_with_prefixes=True):
     """Limpa e simplifica o endereço para geocodificação"""
     if not address or address == "N/A":
         return None
     
-    # Substitui abreviações problemáticas
-    replacements = {
-        r'\bMin\.?\b': 'Ministro',
-        r'\bDes\.?\b': 'Desembargador',
-        r'\bSra\.?\b': 'Senhora',
-        r'\bDr\.?\b': 'Doutor'
-    }
+    # Primeiro tratamento: substitui abreviações
+    if try_with_prefixes:
+        replacements = {
+            r'\bMin\.?\b': 'Ministro',
+            r'\bDes\.?\b': 'Desembargador',
+            r'\bSra\.?\b': 'Senhora',
+            r'\bDr\.?\b': 'Doutor',
+            r'\bPres\.?\b': 'Presidente',
+            r'\bBrig\.?\b': 'Brigadeiro'
+        }
+        
+        for pattern, repl in replacements.items():
+            address = re.sub(pattern, repl, address, flags=re.IGNORECASE)
+    else:
+        # Segundo tratamento: remove completamente os prefixos
+        prefixes_to_remove = [
+            r'\bMin\.?\b\s*', r'\bDes\.?\b\s*', r'\bSra\.?\b\s*',
+            r'\bDr\.?\b\s*', r'\bPres\.?\b\s*', r'\bBrig\.?\b\s*'
+        ]
+        for prefix in prefixes_to_remove:
+            address = re.sub(prefix, '', address, flags=re.IGNORECASE)
     
-    for pattern, repl in replacements.items():
-        address = re.sub(pattern, repl, address, flags=re.IGNORECASE)
-    
-    # Remove informações após números (como complementos)
-    simplified = re.sub(r'(\d+).*', r'\1', address)
-    # Remove códigos postais e outras informações irrelevantes
-    simplified = re.sub(r',?\s*\d{5}-?\d{3}.*', '', simplified)
-    # Remove termos como "próximo", "altura", etc.
+    # Limpeza comum para ambos os casos
+    simplified = re.sub(r'(\d+).*', r'\1', address)  # Remove após números
+    simplified = re.sub(r',?\s*\d{5}-?\d{3}.*', '', simplified)  # Remove CEP
     simplified = re.sub(r'(pr[óo]ximo|altura|alt|perto|ao lado).*', '', simplified, flags=re.IGNORECASE)
-    # Remove pontos de referência após a vírgula
-    simplified = re.sub(r',.*?(?=\s*\d|$)', '', simplified)
-    # Remove espaços extras e vírgulas desnecessárias
+    simplified = re.sub(r',.*?(?=\s*\d|$)', '', simplified)  # Remove após vírgula
     simplified = re.sub(r'\s{2,}', ' ', simplified).strip().strip(',')
     
     return simplified if simplified else None
 
 def get_coordinates_nominatim(address):
     """Converte endereço em coordenadas usando Nominatim"""
-    cleaned_address = clean_address(address)
+    # Primeiro tenta com os prefixos substituídos
+    cleaned_address = clean_address(address, try_with_prefixes=True)
     if not cleaned_address:
         print("⚠️ Endereço inválido ou vazio após limpeza")
         return None
     
     try:
-        time.sleep(NOMINATIM_DELAY)  # Respeitar política de uso da API
+        time.sleep(NOMINATIM_DELAY)
         url = f"https://nominatim.openstreetmap.org/search?q={cleaned_address}, São Paulo, Brasil&format=json&limit=1"
         headers = {"User-Agent": "DuoGourmetMetroFinder/1.0"}
         response = requests.get(url, headers=headers)
@@ -106,9 +114,25 @@ def get_coordinates_nominatim(address):
         
         if data:
             return (float(data[0]["lat"]), float(data[0]["lon"]))
-        else:
-            print(f"⚠️ Endereço não encontrado no Nominatim: '{cleaned_address}'")
+        
+        # Se não encontrou, tenta novamente removendo os prefixos
+        print("⚠️ Tentando novamente sem os prefixos...")
+        cleaned_address = clean_address(address, try_with_prefixes=False)
+        if not cleaned_address:
             return None
+            
+        time.sleep(NOMINATIM_DELAY)
+        url = f"https://nominatim.openstreetmap.org/search?q={cleaned_address}, São Paulo, Brasil&format=json&limit=1"
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        data = response.json()
+        
+        if data:
+            return (float(data[0]["lat"]), float(data[0]["lon"]))
+        
+        print(f"⚠️ Endereço não encontrado no Nominatim: '{cleaned_address}'")
+        return None
+        
     except Exception as e:
         print(f"⚠️ Erro ao geocodificar com Nominatim: {e}")
         return None

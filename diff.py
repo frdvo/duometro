@@ -5,6 +5,7 @@ from collections import defaultdict
 ARQUIVO_ANTIGO = 'restaurantes_com_metro_google_anterior.csv'
 ARQUIVO_NOVO = 'restaurantes_com_metro_google.csv'
 IGNORAR_DISTANCIA = 0.25  # 0.1 = 10% de variação
+MAX_DIFF = 10  # Limite de detalhes a serem mostrados (None para mostrar todos)
 
 # Emojis para decorar a saída
 EMOJI_REMOVIDO = "❌"
@@ -120,7 +121,7 @@ def main():
         novos = ler_restaurantes(ARQUIVO_NOVO)
         removidos, adicionados, modificados, colunas_adicionadas, colunas_removidas = comparar_restaurantes(antigos, novos)
         
-        # Mostrar diferenças nas colunas
+        # Mostrar diferenças nas colunas (sem limite)
         if colunas_adicionadas:
             print(f"\n📌 Colunas adicionadas:")
             for coluna in sorted(colunas_adicionadas):
@@ -131,19 +132,29 @@ def main():
             for coluna in sorted(colunas_removidas):
                 print(f"  - {coluna}")
         
-        # Restaurantes removidos
+        # Restaurantes removidos (com limite)
         print(f"\n{EMOJI_REMOVIDO} {len(removidos)} Restaurantes removidos do Duo Gourmet:")
-        for nome in sorted(removidos):
+        for i, nome in enumerate(sorted(removidos)):
+            if MAX_DIFF is not None and i >= MAX_DIFF:
+                print(f"  ... e mais {len(removidos) - MAX_DIFF} restaurantes removidos")
+                break
             print(f"  - {nome}")
         
-        # Restaurantes adicionados
+        # Restaurantes adicionados (com limite)
         print(f"\n{EMOJI_ADICIONADO} {len(adicionados)} Restaurantes adicionados ao Duo Gourmet:")
-        for nome in sorted(adicionados):
+        for i, nome in enumerate(sorted(adicionados)):
+            if MAX_DIFF is not None and i >= MAX_DIFF:
+                print(f"  ... e mais {len(adicionados) - MAX_DIFF} restaurantes adicionados")
+                break
             print(f"  - {nome}")
         
-        # Restaurantes modificados
+        # Restaurantes modificados (com limite)
         print(f"\n{EMOJI_MODIFICADO} {len(modificados)} Restaurantes modificados:")
-        for nome, campos in sorted(modificados.items()):
+        for i, (nome, campos) in enumerate(sorted(modificados.items())):
+            if MAX_DIFF is not None and i >= MAX_DIFF:
+                print(f"\n... e mais {len(modificados) - MAX_DIFF} restaurantes modificados")
+                break
+            
             print(f"\n{EMOJI_MODIFICADO} {nome}:")
             
             # Verificar se há mudanças nos horários
